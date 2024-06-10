@@ -23,17 +23,3 @@ class LoginApi:
             json=json_data
         )
         return response
-
-    def put_v1_account_email(
-            self,
-            json_data
-            ):
-        """
-        Change registered user email
-        :param json_data:
-        :return:
-        """
-        response = requests.put(
-            url=f'{self.host}/v1/account/email',
-            json=json_data
-        )

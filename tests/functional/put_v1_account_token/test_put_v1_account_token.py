@@ -7,7 +7,7 @@ def test_put_v1_account_token():
     account_api = AccountApi(host='http://5.63.153.31:5051')
     mailhog_api = MailhogApi(host='http://5.63.153.31:5025')
 
-    login = 's-test7'
+    login = 's-test8'
     password = '12345678'
     email = f'{login}@m.ru'
     json_data = {
@@ -33,8 +33,6 @@ def test_put_v1_account_token():
     response = account_api.put_v1_account_token(token=token)
 
     assert response.status_code == 200, "Пользователь не был активирован"
-
-    # Авторизация
 
 def get_activation_token_by_login(
         login,

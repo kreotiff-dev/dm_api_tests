@@ -27,7 +27,7 @@ def test_put_v1_account_token():
     assert response.status_code == 200, "Письма не получены"
 
     # Получить активационный токен
-    token = get_activation_token_by_login(login, response)
+    token = get_activation_token_by_login(login, email, response)
 
     assert token is not None, f"Токен для пользователя {login}, не был получен"
 

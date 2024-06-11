@@ -1,4 +1,5 @@
 from json import loads
+from datetime import datetime
 from dm_api_account.apis.account_api import AccountApi
 from api_mailhog.apis.mailhog_api import MailhogApi
 
@@ -7,7 +8,8 @@ def test_put_v1_account_token():
     account_api = AccountApi(host='http://5.63.153.31:5051')
     mailhog_api = MailhogApi(host='http://5.63.153.31:5025')
 
-    login = 's-test8'
+    now_date = datetime.now()
+    login = f"s-test-{now_date.strftime('%Y%m%d%H%M%S')}"
     password = '12345678'
     email = f'{login}@m.ru'
     json_data = {
@@ -36,11 +38,18 @@ def test_put_v1_account_token():
 
 def get_activation_token_by_login(
         login,
+        email,
         response
         ):
+    token = None
+    # pprint.pprint(response.json())
     for item in response.json()['items']:
         user_data = loads(item['Content']['Body'])
-        user_login = user_data['Login']
-        if user_login == login:
+        user_login = user_data.get('Login')
+        user_email = item['Content']['Headers']['To'][0]
+        print(f"Проверка письма: login={user_login}, email={user_email}")
+        if user_login == login and user_email == email:
             token = user_data['ConfirmationLinkUrl'].split('/')[-1]
+            print(f"Найден токен: {token}")
+            break
     return token

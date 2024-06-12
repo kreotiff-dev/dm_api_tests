@@ -12,7 +12,6 @@ def test_put_v1_account_email():
 
     now_date = datetime.now()
     login = f"s-test-{now_date.strftime('%Y%m%d%H%M%S')}"
-    print(login)
     password = '12345678'
     email = f'{login}@m.ru'
     json_data = {
@@ -30,7 +29,6 @@ def test_put_v1_account_email():
 
     # Получить активационный токен
     token = get_activation_token_by_login(login, email, response)
-    print(f"Активационный токен: {token}")
     assert token is not None, f"Токен для пользователя {login}, не был получен"
 
     # Активация пользователя
@@ -57,7 +55,6 @@ def test_put_v1_account_email():
 
     # Получить активационный токен по новому email
     token = get_activation_token_by_login(login, new_email, response)
-    print(f"Новый активационный токен: {token}")
     assert token is not None, f"Токен для пользователя {login}, не был получен"
 
     #Активируем новый токен
@@ -66,7 +63,6 @@ def test_put_v1_account_email():
 
     #Логинимся
     response = login_api.post_v1_account_login(json_data=json_data)
-    print(json_data)
     assert response.status_code == 200, "Пользователь не был авторизован"
 
 def get_activation_token_by_login(

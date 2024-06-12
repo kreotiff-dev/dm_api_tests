@@ -22,7 +22,7 @@ def test_post_v1_account():
     mailhog_api = MailhogApi(configuration=mailhog_configuration)
 
     now_date = datetime.now()
-    login = f"s-test-{now_date.strftime('%Y%m%d%H%M%S')}"
+    login = f"s-test-{now_date.strftime('%Y%m%d%H%M%S%f')}"
     password = '12345678'
     email = f'{login}@m.ru'
     json_data = {

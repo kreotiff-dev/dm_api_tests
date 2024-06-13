@@ -1,6 +1,4 @@
-from json import loads
 from datetime import datetime
-
 from helpers.account_helper import AccountHelper
 from restclient.configuration import Configuration as MailhogConfiguration, Configuration as DmApiConfiguration
 from services.dm_api_account import DMApiAccount

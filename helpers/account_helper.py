@@ -40,6 +40,23 @@ class AccountHelper:
         assert response.status_code == 200, "Пользователь не был авторизован"
         return response
 
+    def user_change_email(self, login: str, new_email: str, password: str):
+        json_data = {
+            'login': login,
+            'email': new_email,
+            'password': password
+        }
+        response = self.dm_account_api.account_api.put_v1_account_email(json_data=json_data)
+        assert response.status_code == 200, "Email не был изменён"
+        response = self.dm_account_api.login_api.post_v1_account_login(json_data=json_data)
+        assert response.status_code == 403, "Ошибка..."
+        response = self.mailhog.mailhog_api.get_api_v2_messages()
+        assert response.status_code == 200, "Письма не получены"
+        token = self.get_activation_token_by_login(login=login, email=new_email, response=response)
+        assert token is not None, f"Токен для пользователя {login}, не был получен"
+        response = self.dm_account_api.account_api.put_v1_account_token(token=token)
+        assert response.status_code == 200, "Пользователь не был активирован"
+
     @staticmethod
     def get_activation_token_by_login(
             login,
